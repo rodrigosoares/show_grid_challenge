@@ -4,9 +4,9 @@
 $LOAD_PATH << './lib'
 require 'singleton'
 require 'time'
-require 'classes/grid'
-require 'classes/show'
-require 'classes/statement'
+require 'grid'
+require 'show'
+require 'statement'
 
 # STDIN reading method to capture user statements.
 def run!
