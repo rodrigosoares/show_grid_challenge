@@ -1,8 +1,10 @@
 class Statement
+  # Initializes a Statement object.
   def initialize(raw_statement)
     parse(raw_statement)
   end
 
+  # Executes the statement based on its type (S for scheduling or Q for querying).
   def execute!
     if @type.eql?('S')
       show = Show.new(@region, @show_name, @starting_at, @ending_at)
@@ -15,8 +17,10 @@ class Statement
 
   private
 
+  # Instantiates or retrieves a singleton Grid object (the show DB).
   GRID = Grid.instance
 
+  # Matches 'S "XX" "show name" XX:XX YY:YY' or 'Q "XX" XX:XX'.
   STATEMENT_REGEX = %r(
     (?<type>[SQ])\s
     "(?<region>\w{2})"\s
@@ -29,11 +33,13 @@ class Statement
     )
   )ix
 
+  # Parses the raw statement and defines its fields if there is a match.
   def parse(raw_statement)
     match = raw_statement.match(STATEMENT_REGEX)
     define_fields_from(match) unless match.nil?
   end
 
+  # Prints the answer to the query depending if the show exists in the grid.
   def output(shows)
     if shows.empty?
       puts "A \"#{@region}\" #{@airing_at} noise"
@@ -44,6 +50,7 @@ class Statement
     end
   end
 
+  # Defines the statement fields.
   def define_fields_from(match)
     @type        = match[:type]
     @region      = match[:region]
