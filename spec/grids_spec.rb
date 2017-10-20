@@ -14,7 +14,6 @@ describe Grid do
   end
 
   describe '#schedule' do
-
     before(:each) { subject.schedule(show) }
 
     it 'adds a show to the grid if the show does not exist yet' do
