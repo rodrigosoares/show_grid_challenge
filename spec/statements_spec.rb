@@ -32,9 +32,14 @@ describe Statement do
       it 'schedules a show' do
         @schedule_stmt.execute!
         show = Grid.instance.instance_variable_get(:@shows).sample
-        expect(show).not_to be_nil
+        expect(show).to be_instance_of(Show)
         expect(show.region).to eq('DF')
         expect(show.name).to eq('Bom dia DF')
+      end
+
+      it 'does not schedule duplicated shows' do
+        2.times { @schedule_stmt.execute! }
+        expect(Grid.instance.instance_variable_get(:@shows).size).to eq(1)
       end
     end
 

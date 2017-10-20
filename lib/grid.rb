@@ -6,9 +6,9 @@ class Grid
     @shows = []
   end
 
-  # Adds a show to the grid.
+  # Adds a show to the grid if it does not exist.
   def schedule(show)
-    @shows << show
+    @shows << show unless already_exists?(show)
   end
 
   # Queries for a show based on the region and the airing time.
@@ -27,5 +27,10 @@ class Grid
       show.region.eql?(region) &&
         Time.parse(airing_at).between?(show.starting_at, show.ending_at)
     end
+  end
+
+  def already_exists?(new_show)
+    @shows.each { |show| return true if show.same?(new_show) }
+    false
   end
 end

@@ -7,4 +7,11 @@ class Show
     @starting_at = Time.parse(starting_at)
     @ending_at = Time.parse(ending_at)
   end
+
+  def same?(other)
+    @region.eql?(other.region) &&
+      @name.eql?(other.name) &&
+      @starting_at.eql?(other.starting_at) &&
+      @ending_at.eql?(other.ending_at)
+  end
 end
