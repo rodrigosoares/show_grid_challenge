@@ -4,7 +4,7 @@ This code is related to a challenge I took part, which consists of implementing 
 
 ## Challenge description
 
-The TV signal is geolocated, which means the show currently being broadcasted varies depending on where its spectators are. For example, there are local TV news like RJTV, SPTV and DFTV, which are broadcasted only in Rio de Janeiro, São Paulo and the Federal District regions, respectively.
+The TV signal is geolocated, which means the show currently being broadcasted varies depending on where its spectators are. For example, there are local TV news like RJ News, SP News and DF News, which are broadcasted only in Rio de Janeiro, São Paulo and the Federal District regions, respectively.
 
 If there are no local shows, the national signal is broadcasted instead. This means there are some shows that are broadcasted in all regions.
 
@@ -14,7 +14,7 @@ The challenge was to implement a code that receives show data to be inserted int
 
 - Each entry is given in a single line via STDIN.
 - Expected format: `S <region> <show_name> <start_time> <end_time>`.
-- Example: RJTV is aired at the noon: `S "RJ" "RJTV" 12:00 13:00`.
+- Example: RJ News is aired at the noon: `S "RJ" "RJ News" 12:00 13:00`.
 
 ### Data input: querying shows from the grid
 
@@ -27,7 +27,7 @@ The challenge was to implement a code that receives show data to be inserted int
 - Each answer is given in a single line via STDOUT.
 - Expected format: `A <query_region> <time> <show_region> <show_name>`.
 - Format when there is no available show: `A <query_region> <time> noise`.
-- Example 1: RJTV is the show aired at the noon in Rio de Janeiro: `A "RJ" 12:00 "RJ" "RJTV"`.
+- Example 1: RJ News is the show aired at the noon in Rio de Janeiro: `A "RJ" 12:00 "RJ" "RJ News"`.
 - Example 2: No show is aired at 3 a.m. in Rio de Janeiro: `A "RJ" 03:00 noise`.
 
 ### More examples
@@ -70,7 +70,7 @@ A "GO" 12:50 noise
 - Type `Ctrl-C` to leave.
 - Run RSpec tests with `rspec --format d` (optional).
 
-### Docker way (require [Docker](https://www.docker.com/))
+### [Docker](https://www.docker.com/) way
 
 - Build the image with `docker build -t show-grid .`.
 - Run the container with `docker run -ti --name my-show-grid show-grid`.
