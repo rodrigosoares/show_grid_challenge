@@ -1,129 +1,69 @@
-## Considerações gerais
+## Show Grid Challenge
 
-A escolha da linguagem é deixada para você, utilize **a que você se sente mais confortável**. A entrada deverá ser por `STDIN` (*standard input*) e a saída por `STDOUT` (*standard output*) na linguagem que você escolher. 
+This code is related to a challenge I took part, which consists of implementing a grid of TV shows for a major media group in Brazil. The chosen language is Ruby version 2.4.x, using RSpec version 3.6 as the TDD framework.
 
-Forneça as instruções de instalação e execução do seu sistema, observaremos **principalmente seu *design* de código**. Aspectos como coesão, baixo acoplamento e legibilidade são os principais pontos.
+## Challenge description
 
-Escolha um dos desafios abaixo para resolver, caso já tenha participado do processo seletivo, por favor escolha um desafio diferente do que foi feito anteriormente.
+The TV signal is geolocated, which means the show currently being broadcasted varies depending on where its spectators are. For example, there are local TV news like RJTV, SPTV and DFTV, which are broadcasted only in Rio de Janeiro, São Paulo and the Federal District regions, respectively.
 
-## 1 - Grade de programação
+If there are no local shows, the national signal is broadcasted instead. This means there are some shows that are broadcasted in all regions.
 
-O sinal da TV Globo é geolocalizado, dependendo de onde você está um programa
-diferente está passando. Um exemplo disso são os jornais locais: RJTV, SPTV,
-DFTV etc.
+The challenge was to implement a code that receives show data to be inserted into the TV grid and, when asked by state and time, returns the current local show or a special keyword, if no show for the query is found. All the data should be inserted and queried via STDIN (standard input) and STDOUT (standard output).
 
-Quando não existe um programa regional é utilizado o sinal nacional, logo,
-alguns programas passam em todo o território.
+### Data input: adding shows to the grid
 
-Para este desafio você deverá escrever um programa que recebe os dados da grade
-de programação e responde a algumas perguntas. O formato de entrada/saída e os
-tipos de pergunta são definidos abaixo.
+- Each entry is given in a single line via STDIN.
+- Expected format: `S <region> <show_name> <start_time> <end_time>`.
+- Example: RJTV is aired at the noon: `S "RJ" "RJTV" 12:00 13:00`.
 
-### Entrada de dados, cadastro de grade
+### Data input: querying shows from the grid
 
-- Cada registro é dado em uma única linha
-- Formato: `S <região> <nome do programa> <início> <fim>`
-- Exemplo, Bom Dia DF passa às 6 da manhã -> `S "DF" "Bom Dia DF" 06:00 07:30`
+- Each entry is given in a single line via STDIN.
+- Expected format: `Q <region> <time>`.
+- Example: Which TV show is aired at the noon?: `Q "RJ" 12:00`.
 
-### Entrada de dados, consulta de grade
+### Data output: answering the queries
 
-- Cada registro é dado em uma única linha
-- Formato: `Q <região> <hora>`
-- Exemplo: Qual programa passa no DF às 6 da manhã? -> `Q "DF" 06:00`
+- Each answer is given in a single line via STDOUT.
+- Expected format: `A <query_region> <time> <show_region> <show_name>`.
+- Format when there is no available show: `A <query_region> <time> noise`.
+- Example 1: RJTV is the show aired at the noon in Rio de Janeiro: `A "RJ" 12:00 "RJ" "RJTV"`.
+- Example 2: No show is aired at 3 a.m. in Rio de Janeiro: `A "RJ" 03:00 noise`.
 
-### Saída de dados, respostas as consultas
-
-- Cada resposta é dada em uma única linha
-- Formato: `A <Q_região> <hora> <S_região> <nome do programa>`
-- Quando não houver programaçao disponível: `A <Q_região> <hora> noise`
-- Exemplo: Bom dia DF é o programa que passa às 6 da manhã no DF -> `A "DF" 06:00 "DF" "Bom Dia DF"`
-- Exemplo: Não existe um programa passando às 3 da manhã no DF -> `A "DF" 03:00 noise`
-
-### Exemplos
-
+### More examples
 ----
-Entrada:
+Input:
 ```
-S "GO" "Hora Um" 05:00 06:00
-S "BR" "Globo Rural" 05:00 06:00
+S "GO" "Foo Show" 05:00 06:00
+S "BR" "Bar Show" 05:00 06:00
 Q "GO" 05:30
 Q "SP" 05:28
 ```
-Saída:
+Output:
 ```
-A "GO" 05:30 "GO" "Hora Um"
-A "SP" 05:28 "BR" "Globo Rural"
+A "GO" 05:30 "GO" "Foo Show"
+A "SP" 05:28 "BR" "Bar Show"
 ```
 ----
-Entrada:
+Input:
 ```
-S "DF" "Bom dia DF" 06:01 07:29
-S "RJ" "Bom dia RJ" 06:01 07:29
-S "SP" "Bom dia SP" 06:01 07:29
-Q "RJ" 07:00
-Q "GO" 06:50
+S "DF" "DF News" 12:01 13:29
+S "RJ" "RJ News" 12:01 13:29
+S "SP" "SP News" 12:01 13:29
+Q "RJ" 13:00
+Q "GO" 12:50
 ```
-Saída:
+Output:
 ```
-A "RJ" 07:00 "RJ" "Bom dia RJ"
-A "GO" 06:50 noise
-```
-
-## 2 - Algarismos romanos
-
-Você terá que criar um sistema que converta números romanos para decimais ou vice-versa.
-
-O programa pode ser executado recebendo a entrada por STDIN ou como parâmetro "input-file" um arquivo de entrada.
-
-### Por STDIN
-
-Exemplos:
-
-```
-$ ./roman2decimals <(echo CLXXVIII)
-CLXXVIII => 178
+A "RJ" 13:00 "RJ" "RJ News"
+A "GO" 12:50 noise
 ```
 
-```
-$ echo CLXXVIII | ./roman2decimals
-CLXXVIII => 178
-```
+## Instructions
 
-```
-$ echo 14 | ./roman2decimals
-14 => XIV
-```
-
-
-### Por arquivo de entrada
-
-Arquivo de entrada contendo uma lista de algarismos romanos ou decimais (um por linha), retorne o valor em decimal ou algarismo romano equivalente.
-
-### Formato do arquivo de entrada
-
-```
-V
-4
-VI
-42
-XXVI
-26
-CLXXVIII
-```
-
-Exemplo:
-
-```
-$ ./roman2decimals --input-file=input.txt
-V => 5
-4 => IV
-VI => 6
-42 => XLII
-XXVI => 16
-26 => XXVI
-CLXXVIII => 178
-```
-
-## 2 - Referência
-
-https://pt.wikipedia.org/wiki/Numera%C3%A7%C3%A3o_romana
+- Install Ruby version 2.4.x (RVM is recommended to manage Ruby versions).
+- Run `bundle install`.
+- Run the program with `ruby show_grid.rb`.
+- Enter any of the test strings listed before to add shows to the grid or to query them.
+- Type `Ctrl-C` to leave.
+- Run RSpec tests with `rspec --format d` (optional).
