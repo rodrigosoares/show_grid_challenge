@@ -1,6 +1,6 @@
 ## Show Grid Challenge
 
-This code is related to a challenge I took part, which consists of implementing a grid of TV shows for a major media group in Brazil. The chosen language is Ruby version 2.4.x, using RSpec version 3.6 as the TDD framework.
+This code is related to a challenge I took part, which consists of implementing a grid of TV shows for a major media group in Brazil. The chosen language is Ruby version 2.4.x, using RSpec version 3.7 as the TDD framework.
 
 ## Challenge description
 
@@ -61,9 +61,19 @@ A "GO" 12:50 noise
 
 ## Instructions
 
-- Install Ruby version 2.4.x (RVM is recommended to manage Ruby versions).
+### Traditional way
+
+- Install Ruby version 2.4.x ([RVM](https://rvm.io/) is recommended to manage Ruby versions).
 - Run `bundle install`.
 - Run the program with `ruby show_grid.rb`.
 - Enter any of the test strings listed before to add shows to the grid or to query them.
 - Type `Ctrl-C` to leave.
 - Run RSpec tests with `rspec --format d` (optional).
+
+### Docker way (require [Docker](https://www.docker.com/))
+
+- Build the image with `docker build -t show-grid .`.
+- Run the container with `docker run -ti --name my-show-grid show-grid`.
+- Enter any of the test strings listed before to add shows to the grid or to query them.
+- Type `Ctrl-C` to leave.
+- Run RSpec tests with `docker exec -ti my-show-grid rspec --format d`.
